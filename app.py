@@ -1,6 +1,6 @@
 from flask import Flask
 import requests
-import xml.etree.ElementTree as ET
+import json
 import re
 
 app = Flask(__name__)
@@ -10,16 +10,29 @@ def proxy_promed():
     url = 'https://promedmail.org/promed-posts/feed/'
     try:
         r = requests.get(url, timeout=15, headers={'User-Agent': 'VIGIA/1.0'})
-        root = ET.fromstring(r.content)
+        text = r.text
+
+        titles = re.findall(r'<title><!\[CDATA\[(.*?)\]\]></title>', text)
+        dates  = re.findall(r'<pubDate>(.*?)</pubDate>', text)
+        links  = re.findall(r'<link>(.*?)</link>', text)
+
+        # quitar primeros (son del canal, no de posts)
+        titles = titles[1:] if len(titles) > 1 else titles
+        links  = links[1:]  if len(links)  > 1 else links
+        dates  = dates[1:]  if len(dates)  > 1 else dates
+
         items = []
-        for item in root.findall('.//item')[:100]:
-            title = item.findtext('title') or ''
-            date  = item.findtext('pubDate') or ''
-            link  = item.findtext('link') or ''
-            items.append({'title': title, 'date': date, 'link': link})
+        for i in range(min(len(titles), 80)):
+            items.append({
+                'title': titles[i] if i < len(titles) else '',
+                'date':  dates[i]  if i < len(dates)  else '',
+                'link':  links[i]  if i < len(links)  else ''
+            })
+
         resp = app.response_class(
-            response=__import__('json').dumps({'source':'ProMED','data':items}),
-            status=200, mimetype='application/json'
+            response=json.dumps({'source': 'ProMED', 'data': items}),
+            status=200,
+            mimetype='application/json'
         )
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
