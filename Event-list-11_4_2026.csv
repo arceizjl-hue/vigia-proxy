@@ -1,0 +1,11 @@
+﻿badge;country;eventId;reportId;disease;subType;eventStartDate;reason;reportStatus;submissionDate;reportNumber
+"";"Brasil";7160;182260;"Peste porcina clásica (Inf. por el virus de la)";"";"20/12/2025";"Recurrencia de una enfermedad erradicada";"Validado";"10/4/2026";"FUR_9"
+"";"Brasil";7147;182259;"Influenza de tipo A de alta patogenicidad (Inf. por los virus de la) (aves que no sean de corral, incluyendo las silvestres) (2017-)";"H5N1";"8/12/2025";"Recurrencia de una enfermedad erradicada";"Validado";"10/4/2026";"FUR_11"
+"";"Reino Unido";5657;182256;"Arteritis equina  (Inf. por el virus de la) ";"";"5/4/2024";"Recurrencia de una enfermedad erradicada";"Validado";"10/4/2026";"FUR_100"
+"";"Reino Unido";7337;182254;"Influenza aviar de alta patogenicidad (Inf. por los virus de la) (aves de corral)";"H5N1";"26/2/2026";"Recurrencia de una enfermedad erradicada";"Validado";"10/4/2026";"FUR_6"
+"";"Reino Unido";7368;182253;"Influenza aviar de alta patogenicidad (Inf. por los virus de la) (aves de corral)";"H5N1";"28/2/2026";"Recurrencia de una enfermedad erradicada";"Validado";"10/4/2026";"FUR_5"
+"A";"Polonia";6615;182249;"Peste porcina africana (Inf. por el virus de la)";"";"11/7/2025";"Recurrencia de una enfermedad erradicada";"Validado";"10/4/2026";"FUR_27"
+"";"Reino Unido";6819;182248;"Lengua azul (Inf. por el virus de la)";"8";"19/9/2025";"Recurrencia de una cepa erradicada";"Validado";"10/4/2026";"FUR_28"
+"";"Reino Unido";6254;182247;"Lengua azul (Inf. por el virus de la)";"12";"4/2/2025";"Cepa nueva en una zona o un compartimento";"Validado";"10/4/2026";"FUR_61"
+"A";"Polonia";6604;182246;"Peste porcina africana (Inf. por el virus de la)";"";"7/7/2025";"Primera aparición en una zona o un compartimento";"Validado";"10/4/2026";"FUR_25"
+"A";"Polonia";6580;182245;"Peste porcina africana (Inf. por el virus de la)";"";"23/6/2025";"Recurrencia de una enfermedad erradicada";"Validado";"10/4/2026";"FUR_31"
