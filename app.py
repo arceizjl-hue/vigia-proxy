@@ -1,44 +1,25 @@
-from flask import Flask, request
+from flask import Flask
 import requests
-from datetime import datetime, timedelta
+import xml.etree.ElementTree as ET
+import re
 
 app = Flask(__name__)
 
 @app.route('/wahis')
-def proxy_wahis():
-    now = datetime.utcnow()
-    week_ago = now - timedelta(days=7)
-    year_start = datetime(now.year, 1, 1)
-
-    end_str   = now.strftime('%Y-%m-%d')
-    week_str  = week_ago.strftime('%Y-%m-%d')
-    year_str  = year_start.strftime('%Y-%m-%d')
-
-    payload = {
-        "startDate": year_str,
-        "endDate": end_str,
-        "page": 0,
-        "pageSize": 500
-    }
-
-    headers = {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Origin": "https://wahis.woah.org",
-        "Referer": "https://wahis.woah.org/"
-    }
-
+def proxy_promed():
+    url = 'https://promedmail.org/promed-posts/feed/'
     try:
-        r = requests.post(
-            'https://wahis.woah.org/api/v1/public/event/outbreaks',
-            json=payload,
-            headers=headers,
-            timeout=20
-        )
+        r = requests.get(url, timeout=15, headers={'User-Agent': 'VIGIA/1.0'})
+        root = ET.fromstring(r.content)
+        items = []
+        for item in root.findall('.//item')[:100]:
+            title = item.findtext('title') or ''
+            date  = item.findtext('pubDate') or ''
+            link  = item.findtext('link') or ''
+            items.append({'title': title, 'date': date, 'link': link})
         resp = app.response_class(
-            response=r.content,
-            status=r.status_code,
-            mimetype='application/json'
+            response=__import__('json').dumps({'source':'ProMED','data':items}),
+            status=200, mimetype='application/json'
         )
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
@@ -47,7 +28,7 @@ def proxy_wahis():
 
 @app.route('/test')
 def test():
-    return {'status': 'ok', 'message': 'VIGIA proxy activo'}
+    return {'status': 'ok'}
 
 if __name__ == '__main__':
     app.run()
